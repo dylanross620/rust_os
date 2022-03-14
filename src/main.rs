@@ -17,7 +17,7 @@ pub extern "C" fn _start() -> ! {
     #[cfg(test)]
     test_main();
 
-    loop {}
+    os::hlt_loop();
 }
 
 // Function that will get called in case of a panic. It never returns (as marked by returning `!`)
@@ -25,7 +25,7 @@ pub extern "C" fn _start() -> ! {
 #[panic_handler]
 fn panic(info: &PanicInfo) -> ! {
     println!("{}", info);
-    loop {}
+    os::hlt_loop();
 }
 
 // Special panic handler for testing to use serial output
