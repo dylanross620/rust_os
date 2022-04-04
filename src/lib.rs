@@ -4,14 +4,18 @@
 #![feature(abi_x86_interrupt)]
 #![test_runner(crate::test_runner)]
 #![reexport_test_harness_main = "test_main"]
+#![feature(alloc_error_handler)]
 
 use core::panic::PanicInfo;
+
+extern crate alloc;
 
 pub mod serial;
 pub mod vga_buffer;
 pub mod interrupts;
 pub mod gdt;
 pub mod memory;
+pub mod allocator;
 
 // Unit testing setup
 
@@ -90,4 +94,9 @@ pub fn hlt_loop() -> ! {
     loop {
         x86_64::instructions::hlt();
     }
+}
+
+#[alloc_error_handler]
+fn alloc_error_handler(layout: alloc::alloc::Layout) -> ! {
+    panic!("allocation error {:?}", layout)
 }
