@@ -14,6 +14,7 @@ use alloc::{boxed::Box, vec, vec::Vec, rc::Rc};
 entry_point!(kernel_main);
 
 fn kernel_main(boot_info: &'static BootInfo) -> ! {
+    use x86_64::VirtAddr;
     use os::allocator;
     use os::memory::{self, BootInfoFrameAllocator};
 
@@ -33,7 +34,7 @@ fn kernel_main(boot_info: &'static BootInfo) -> ! {
     for i in 0..500 {
         vec.push(i);
     }
-    println!("vec at {:p}", vec);
+    println!("vec at {:p}", vec.as_slice());
 
     let reference_counted = Rc::new(vec![1, 2, 3]);
     let cloned_reference = reference_counted.clone();
